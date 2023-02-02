@@ -1,0 +1,10 @@
+GET http://localhost:3000/usuario/7
+
+###
+POST http://localhost:3000/usuario/login
+Content-Type: application/json
+{
+	"email": "funcionario2@gmail.com",
+	"senha": "123"
+}
+
