@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-
+const PORT = 8080;
 app.use(cors());
 app.use(express.json());
 app.use((req, res, next) => {
@@ -63,7 +63,7 @@ app.get('/tarefa/:id', ControllerTarefas.findByTarefa);
 app.delete('/tarefa/:id', ControllerTarefas.delete);
 app.put('/tarefa/confirmar/:id', ControllerTarefas.confirmar);
 
-const PORT = 8080;
+
 app.listen(PORT, () => {
     console.log(`------------------------------`);
     console.log(`    🚀 API PONTO TI 🚀`);
