@@ -2,15 +2,20 @@ const db = require('../config/db');
 const login = require('../middleware/login');
 
 module.exports = {
-    async insert(req, res){
+    async insert(req, res) {
         let datas = {
-         
-        "nome_cliente": req.body.nome ,
-        "email_cliente": req.body.email ,
-        "telefone_cliente": req.body.telefone ,
-        "responsavel": req.body.responsavel ,
-        "endereco": req.body.endereco 
-        
+
+            "nome_cliente": req.body.nome,
+            "email_cliente": req.body.email,
+            "telefone_cliente": req.body.telefone,
+            "responsavel": req.body.responsavel,
+            "endereco": req.body.endereco,
+
+            "email2": req.body.email2,
+            "responsavel2": req.body.responsavel2,
+            "telefone2": req.body.telefone2,
+            "tipo": req.body.tipo
+
         }
 
         try {
@@ -20,19 +25,24 @@ module.exports = {
             console.log(error);
         }
     } //FIM INSERT 
-    
+
 
     //INICIO UPDATE
     ,
-    async update(req, res){
+    async update(req, res) {
         let id = req.params.id;
 
         let datas = {
-        "nome_cliente": req.body.nome ,
-        "email_cliente": req.body.email ,
-        "telefone_cliente": req.body.telefone ,
-        "responsavel": req.body.responsavel ,
-        "endereco": req.body.endereco 
+            "nome_cliente": req.body.nome,
+            "email_cliente": req.body.email,
+            "telefone_cliente": req.body.telefone,
+            "responsavel": req.body.responsavel,
+            "endereco": req.body.endereco,
+
+            "email2": req.body.email2,
+            "responsavel2": req.body.responsavel2,
+            "telefone2": req.body.telefone2,
+            "tipo": req.body.tipo
         }
 
         try {
@@ -42,11 +52,11 @@ module.exports = {
             console.log(error);
         }
     } //FIM UPDATE 
-    
-    
+
+
     //INICIO LISTAR TODOS
     ,
-    async findAll(req, res){
+    async findAll(req, res) {
         try {
             let response = await db.query('SELECT * FROM clientes order by id desc');
             res.json(response[0]);
@@ -57,7 +67,7 @@ module.exports = {
 
     //INICIO LISTAR TODOS
     ,
-    async SelectList(req, res){
+    async SelectList(req, res) {
         try {
             let response = await db.query('SELECT id, nome_cliente FROM `clientes` order by id desc');
             res.json(response[0]);
@@ -65,11 +75,11 @@ module.exports = {
             console.log(error);
         }
     }//FIM LISTAR TODOS
-    
-    
+
+
     //INICIO LISTAR POR ID
     ,
-    async findById(req, res){
+    async findById(req, res) {
         let id = req.params.id;
         try {
             let response = await db.query(`SELECT * FROM clientes WHERE id = ${id}`);
@@ -78,11 +88,11 @@ module.exports = {
             console.log(error);
         }
     }//FIM LISTAR POR ID
-    
-    
+
+
     //INICIO DELETE
     ,
-    async delete(req, res){
+    async delete(req, res) {
         let id = req.params.id;
 
         try {
