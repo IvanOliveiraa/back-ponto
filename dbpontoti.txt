@@ -1,0 +1,247 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Tempo de geração: 08-Abr-2024 às 19:23
+-- Versão do servidor: 10.4.20-MariaDB
+-- versão do PHP: 7.3.29
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Banco de dados: `dbpontoti`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `atendimentos`
+--
+
+CREATE TABLE `atendimentos` (
+  `id` int(11) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `id_tipo_atendimento` int(11) NOT NULL,
+  `Status` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `atendimentos`
+--
+
+INSERT INTO `atendimentos` (`id`, `id_cliente`, `id_tipo_atendimento`, `Status`) VALUES
+(1, 1, 1, 'Agendado'),
+(2, 5, 1, 'agendado'),
+(27, 3, 8, 'Aberto');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `clientes`
+--
+
+CREATE TABLE `clientes` (
+  `id` int(11) NOT NULL,
+  `nome_cliente` varchar(50) NOT NULL,
+  `email_cliente` varchar(60) NOT NULL,
+  `telefone_cliente` varchar(50) NOT NULL,
+  `responsavel` varchar(50) NOT NULL,
+  `endereco` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `clientes`
+--
+
+INSERT INTO `clientes` (`id`, `nome_cliente`, `email_cliente`, `telefone_cliente`, `responsavel`, `endereco`) VALUES
+(1, 'Moqueca capixaba', 'Empresa@gmail.com', '(69)99999-9991', 'Joao', 'rua dos bobos nº 0'),
+(3, 'Dr franco', 'Empresa@gmail.com', '(69)99999-9991', 'Jose', 'rua dos bobos nº 0'),
+(4, 'Delicias do madeira', 'Empresa@gmail.com', '(69)99999-9991', 'kaleb', 'rua dos bobos nº 0'),
+(5, 'junior sun', 'juniorsun@gmail.com', '(69)99999-9991', 'pepe', 'rua dos bobos nº 0');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tarefas`
+--
+
+CREATE TABLE `tarefas` (
+  `id_tarefa` int(11) NOT NULL,
+  `id_atendimento` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_tipo_atendimento` int(11) NOT NULL,
+  `abertura` text NOT NULL,
+  `conclusao` text DEFAULT NULL,
+  `data` date NOT NULL,
+  `prioridade` tinyint(1) NOT NULL,
+  `status_tarefa` varchar(60) NOT NULL,
+  `hora` time DEFAULT NULL,
+  `revisada` tinyint(1) NOT NULL,
+  `horario_conclusao` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `tarefas`
+--
+
+INSERT INTO `tarefas` (`id_tarefa`, `id_atendimento`, `id_usuario`, `id_tipo_atendimento`, `abertura`, `conclusao`, `data`, `prioridade`, `status_tarefa`, `hora`, `revisada`, `horario_conclusao`) VALUES
+(1, 1, 29, 1, 'fazer manutenção na impressora', 'foi concluida', '2022-03-01', 1, 'revisado', '17:00:00', 1, '2022-05-26 17:06:00'),
+(2, 2, 1, 1, 'fazer manutenção na impressora', 'concluido ta?', '2022-03-05', 0, 'aguardando', '19:00:00', 0, '2022-05-26 10:43:00'),
+(12, 2, 29, 1, 'corrigir cabeamento de rede', 'concluiu, sim', '2022-03-05', 0, 'concluido', '20:00:00', 1, '2022-05-26 19:48:00'),
+(14, 27, 29, 8, 'instalação de alarme noturno', 'foi concluido com sucesso', '2022-05-21', 0, 'aguardando', '21:48:00', 0, '2022-05-26 19:48:00'),
+(17, 1, 29, 3, 'ssazds', 'teste', '2022-05-17', 0, 'concluido', '22:00:00', 1, '2022-05-30 15:01:00'),
+(18, 1, 26, 3, 'visita rapida', NULL, '2022-06-08', 0, 'agendado', '12:02:00', 0, NULL),
+(19, 1, 1, 3, 'ver se foi concluido', 'foi feita a visita', '2022-06-14', 0, 'aguardando', '15:50:00', 0, '2022-06-14 18:51:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tipos_atendimentos`
+--
+
+CREATE TABLE `tipos_atendimentos` (
+  `id` int(11) NOT NULL,
+  `nome_atendimento` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `tipos_atendimentos`
+--
+
+INSERT INTO `tipos_atendimentos` (`id`, `nome_atendimento`) VALUES
+(1, 'Instalação CFTV'),
+(2, 'Instalação impressora'),
+(3, 'Visita rapida'),
+(8, 'Instalação alarme');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `cpf` varchar(50) NOT NULL,
+  `email` varchar(60) NOT NULL,
+  `nome` varchar(50) NOT NULL,
+  `senha` varchar(20) NOT NULL,
+  `nivel` varchar(20) NOT NULL,
+  `telefone` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `cpf`, `email`, `nome`, `senha`, `nivel`, `telefone`) VALUES
+(1, '002.626.632-60', 'ivosn9@gmail.com', 'Ivan', '123', 'tecnico', '(69)99999-9999'),
+(26, '002.626.632-67', 'shall@gmail.com', 'Shall', '1', 'administrador', '(69) 99999-9999'),
+(29, '002.626.632-67', 'jose@gmail.com', 'jose de souza carneiro de moraes', '132', 'tecnico', '(21) 31231-2321'),
+(39, '222.222.222-22', 'administrativo@gmail.com', 'administrativo', '123', 'administrativo', '(22) 22222-2222');
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices para tabela `atendimentos`
+--
+ALTER TABLE `atendimentos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_cliente` (`id_cliente`),
+  ADD KEY `id_tipo_atendimento` (`id_tipo_atendimento`);
+
+--
+-- Índices para tabela `clientes`
+--
+ALTER TABLE `clientes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `tarefas`
+--
+ALTER TABLE `tarefas`
+  ADD PRIMARY KEY (`id_tarefa`),
+  ADD KEY `id_atendimento` (`id_atendimento`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_tipo_atendimento` (`id_tipo_atendimento`);
+
+--
+-- Índices para tabela `tipos_atendimentos`
+--
+ALTER TABLE `tipos_atendimentos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT de tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `atendimentos`
+--
+ALTER TABLE `atendimentos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT de tabela `clientes`
+--
+ALTER TABLE `clientes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de tabela `tarefas`
+--
+ALTER TABLE `tarefas`
+  MODIFY `id_tarefa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT de tabela `tipos_atendimentos`
+--
+ALTER TABLE `tipos_atendimentos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela `atendimentos`
+--
+ALTER TABLE `atendimentos`
+  ADD CONSTRAINT `atendimentos_ibfk_2` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `atendimentos_ibfk_3` FOREIGN KEY (`id_tipo_atendimento`) REFERENCES `tipos_atendimentos` (`id`);
+
+--
+-- Limitadores para a tabela `tarefas`
+--
+ALTER TABLE `tarefas`
+  ADD CONSTRAINT `tarefas_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `tarefas_ibfk_2` FOREIGN KEY (`id_atendimento`) REFERENCES `atendimentos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tarefas_ibfk_3` FOREIGN KEY (`id_tipo_atendimento`) REFERENCES `tipos_atendimentos` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

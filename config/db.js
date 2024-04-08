@@ -13,4 +13,4 @@ var pool = mysql.createPool({
     database: 'heroku_f8bf57cf470a769'
 });
 
-module.exports = pool;
+module.exports = pool2;
