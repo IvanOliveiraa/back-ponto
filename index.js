@@ -21,6 +21,7 @@ const ControllerAuth = require('./controllers/ControllerAuth');
 const ControllerAtendimento = require('./controllers/ControllerAtendimentos');
 const ControllerTipos_Atendimentos = require('./controllers/ControllerTipos_Atendimentos');
 const ControllerTarefas = require('./controllers/ControllerTarefas');
+const ControllerOrcamento = require('./controllers/ControllerOrcamento');
 
 //AUTENTICAÇÃO
 app.post('/login', ControllerAuth.login);
@@ -60,10 +61,16 @@ app.put('/atendimento/confirmar/:id', ControllerAtendimento.confirmar);
 app.post('/tarefa/insert', ControllerTarefas.insert);
 app.get('/tarefasporatendimento/:id', ControllerTarefas.findByAtendimento);
 app.get('/tarefas/:id', ControllerTarefas.findByUser);
+app.get('/tarefashoje/:id', ControllerTarefas.findByUserday);
 app.get('/tarefa/:id', ControllerTarefas.findByTarefa);
 app.delete('/tarefa/:id', ControllerTarefas.delete);
 app.put('/tarefa/confirmar/:id', ControllerTarefas.confirmar);
 
+//ORCAMENTOS
+app.post('/orcamento/insert', ControllerOrcamento.insert);
+app.get('/orcamentos', ControllerOrcamento.findAll);
+app.get('/orcamento/:id', ControllerOrcamento.findById);
+app.get('orcamento/gerarproposta/:id', ControllerOrcamento.gerarProposta);
 
 app.listen(PORT, () => {
     console.log(`------------------------------`);
