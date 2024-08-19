@@ -120,27 +120,28 @@ module.exports = {
         try {
             let response = await db.query(`SELECT 
             tarefas.id_tarefa,
-            tarefas.id_atendimento,
-            usuarios.nome,
-            tipos_atendimentos.nome_atendimento,
-            tarefas.status_tarefa,
-            tarefas.abertura,
-            tarefas.data,
-            tarefas.hora,
-            tarefas.revisada,
-            tarefas.conclusao,
-            tarefas.horario_conclusao,
-            clientes.nome_cliente,
-            clientes.telefone_cliente,
-            clientes.email_cliente,
-            clientes.responsavel,
-            clientes.endereco
-                        FROM tarefas 
-                        INNER JOIN atendimentos ON tarefas.id_atendimento = atendimentos.id
-                        INNER JOIN usuarios ON tarefas.id_usuario = usuarios.id
-                        INNER JOIN clientes ON atendimentos.id_cliente = clientes.id 
-                        INNER JOIN tipos_atendimentos ON atendimentos.id_tipo_atendimento= tipos_atendimentos.id
-                        WHERE atendimentos.id = ${id}
+    tarefas.id_atendimento,
+    usuarios.nome,
+    tipos_atendimentos.nome_atendimento,
+    tarefas.status_tarefa,
+    tarefas.abertura,
+    tarefas.data,
+    tarefas.hora,
+    tarefas.revisada,
+    tarefas.conclusao,
+    tarefas.horario_conclusao,
+    tarefas.pendente,
+    tarefas.pendenciaDescricao,
+    clientes.nome_cliente,
+    clientes.telefone_cliente,
+    clientes.email_cliente,
+    clientes.responsavel,
+    clientes.endereco
+FROM tarefas 
+INNER JOIN atendimentos ON tarefas.id_atendimento = atendimentos.id
+INNER JOIN usuarios ON tarefas.id_usuario = usuarios.id
+INNER JOIN clientes ON atendimentos.id_cliente = clientes.id 
+INNER JOIN tipos_atendimentos ON atendimentos.id_tipo_atendimento = tipos_atendimentos.id WHERE atendimentos.id = ${id}
                         `);
             res.json(response[0]);
         } catch (error) {
@@ -155,32 +156,31 @@ module.exports = {
         let id = req.params.id;
         try {
             let response = await db.query(`
-            
-SELECT 
+Select        
 tarefas.id_tarefa,
-tarefas.id_atendimento,
-usuarios.nome,
-tipos_atendimentos.nome_atendimento,
-tarefas.status_tarefa,
-tarefas.abertura,
-tarefas.data,
-tarefas.hora,
-tarefas.revisada,
-tarefas.conclusao,
-tarefas.horario_conclusao,
-tarefas.pendente,
-tarefas.pendenciaDescricao,
-clientes.nome_cliente,
-clientes.telefone_cliente,
-clientes.email_cliente,
-clientes.responsavel,
-clientes.endereco
-            FROM tarefas 
-            INNER JOIN atendimentos ON tarefas.id_atendimento = atendimentos.id
-            INNER JOIN usuarios ON tarefas.id_usuario = usuarios.id
-            INNER JOIN clientes ON atendimentos.id_cliente = clientes.id 
-            INNER JOIN tipos_atendimentos ON atendimentos.id_tipo_atendimento= tipos_atendimentos.id
-            WHERE usuarios.id = ${id} order by tarefas.data desc`);
+    tarefas.id_atendimento,
+    usuarios.nome,
+    tipos_atendimentos.nome_atendimento,
+    tarefas.status_tarefa,
+    tarefas.abertura,
+    tarefas.data,
+    tarefas.hora,
+    tarefas.revisada,
+    tarefas.conclusao,
+    tarefas.horario_conclusao,
+    tarefas.pendente,
+    tarefas.pendenciaDescricao,
+    clientes.nome_cliente,
+    clientes.telefone_cliente,
+    clientes.email_cliente,
+    clientes.responsavel,
+    clientes.endereco
+FROM tarefas 
+INNER JOIN atendimentos ON tarefas.id_atendimento = atendimentos.id
+INNER JOIN usuarios ON tarefas.id_usuario = usuarios.id
+INNER JOIN clientes ON atendimentos.id_cliente = clientes.id 
+INNER JOIN tipos_atendimentos ON atendimentos.id_tipo_atendimento = tipos_atendimentos.id
+WHERE usuarios.id = ${id} order by tarefas.data desc`);
             res.json(response[0]);
         } catch (error) {
             console.log(error);
@@ -272,7 +272,53 @@ ORDER BY tarefas.data DESC;
         } catch (error) {
             console.log(error);
         }
+    },
+    //FIM DELETE
+
+    //INICIO DETALHES TAREFA
+
+    async findDetails(req, res) {
+        let id = req.params.id;
+        try {
+            let response = await db.query(`SELECT 
+                tarefas.id_tarefa,
+                tarefas.id_atendimento,
+                usuarios.nome AS nome_usuario,
+                tipos_atendimentos.nome_atendimento AS servico,
+                tarefas.status_tarefa,
+                tarefas.abertura,
+                tarefas.data,
+                tarefas.hora,
+                tarefas.revisada,
+                tarefas.conclusao,
+                tarefas.horario_conclusao,
+                tarefas.pendente,
+                tarefas.pendenciaDescricao,
+                clientes.nome_cliente,
+                clientes.telefone_cliente,
+                clientes.email_cliente,
+                clientes.responsavel,
+                clientes.endereco
+            FROM tarefas 
+            INNER JOIN atendimentos ON tarefas.id_atendimento = atendimentos.id
+            INNER JOIN usuarios ON tarefas.id_usuario = usuarios.id
+            INNER JOIN clientes ON atendimentos.id_cliente = clientes.id 
+            INNER JOIN tipos_atendimentos ON atendimentos.id_tipo_atendimento = tipos_atendimentos.id
+            WHERE tarefas.id_tarefa = ${id}
+            `);
+
+            if (response.length === 0) {
+                return res.status(404).json({ message: 'Tarefa não encontrada' });
+            }
+
+            res.json(response[0]);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: 'Erro ao buscar detalhes da tarefa' });
+        }
     }
+
+    //FIM DETALHES TAREFA  
 
 
 

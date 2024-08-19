@@ -56,6 +56,7 @@ app.post('/atendimento/insert', ControllerAtendimento.insert);
 app.get('/atendimentos', ControllerAtendimento.findAll);
 app.get('/atendimento/:id', ControllerAtendimento.findById);
 app.put('/atendimento/confirmar/:id', ControllerAtendimento.confirmar);
+app.get('/atendimentos/aguardando', ControllerAtendimento.findAguardando);
 
 //TAREFAS
 app.post('/tarefa/insert', ControllerTarefas.insert);
@@ -65,6 +66,8 @@ app.get('/tarefashoje/:id', ControllerTarefas.findByUserday);
 app.get('/tarefa/:id', ControllerTarefas.findByTarefa);
 app.delete('/tarefa/:id', ControllerTarefas.delete);
 app.put('/tarefa/confirmar/:id', ControllerTarefas.confirmar);
+app.get('/tarefa/detalhes/:id', ControllerTarefas.findDetails);
+
 
 //ORCAMENTOS
 app.post('/orcamento/insert', ControllerOrcamento.insert);
