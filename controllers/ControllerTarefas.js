@@ -157,7 +157,7 @@ INNER JOIN tipos_atendimentos ON atendimentos.id_tipo_atendimento = tipos_atendi
         try {
             let response = await db.query(`
 Select        
-tarefas.id_tarefa,
+ tarefas.id_tarefa,
     tarefas.id_atendimento,
     usuarios.nome,
     tipos_atendimentos.nome_atendimento,
