@@ -1,6 +1,9 @@
+
 const db = require('../config/db');
 const login = require('../middleware/login');
 const moment = require('moment');
+const fetch = require('node-fetch');
+
 
 
 module.exports = {
@@ -23,7 +26,6 @@ module.exports = {
             "data_validade": dataValidade,
             "status": "Aberto",
         };
-
         try {
             // Inserindo o orçamento no banco de dados
             await db.query('INSERT INTO orcamentos SET ?', [datas1]);
@@ -96,56 +98,62 @@ module.exports = {
     // INICIO LISTAR POR ID
     async gerarProposta(req, res) {
         let id = req.params.id;
+        console.log(id);
         try {
             let response = await db.query(`
-            SELECT 
-                orcamentos.id,
-                orcamentos.descricao,
-                orcamentos.valor,
-                orcamentos.data_emissao,
-                orcamentos.data_validade,
-                orcamentos.status,
-                clientes.nome_cliente,
-                clientes.responsavel AS nome_responsavel,
-                tipos_atendimentos.nome_atendimento
-            FROM orcamentos
-            INNER JOIN clientes ON orcamentos.id_cliente = clientes.id
-            INNER JOIN tipos_atendimentos ON orcamentos.id_tipo_atendimento = tipos_atendimentos.id
-            WHERE orcamentos.id = ${id}
-        `);
+                SELECT 
+                    orcamentos.id,
+                    orcamentos.descricao,
+                    orcamentos.valor,
+                    orcamentos.data_emissao,
+                    orcamentos.data_validade,
+                    orcamentos.status,
+                    clientes.nome_cliente,
+                    clientes.responsavel AS nome_responsavel,
+                    tipos_atendimentos.nome_atendimento
+                FROM orcamentos
+                INNER JOIN clientes ON orcamentos.id_cliente = clientes.id
+                INNER JOIN tipos_atendimentos ON orcamentos.id_tipo_atendimento = tipos_atendimentos.id
+                WHERE orcamentos.id = ${id}
+            `);
 
             if (response.length > 0) {
-                const orcamento = response[0];
+                const orcamento = response[0]["0"];
 
-                // Formatar as datas para o formato 'DD-MM-YYYY' usando moment
-                const dataEmissaoFormatada = moment(orcamento.data_emissao).format('DD-MM-YYYY');
-                const dataValidadeFormatada = moment(orcamento.data_validade).format('DD-MM-YYYY');
+                const dataEmissaoFormatada = moment(orcamento.data_emissao).format('YYYY-MM-DD');
+                const dataValidadeFormatada = moment(orcamento.data_validade).format('YYYY-MM-DD');
 
-                // Enviar os dados para o webhook
-                await fetch('https://hook.us2.make.com/yrduv13hso1o9h4tlbb5xp22a30qb4mo', {
+                const payload = {
+                    id: orcamento.id,
+                    descricao: orcamento.descricao,
+                    valor: parseFloat(orcamento.valor).toFixed(2),
+                    data_emissao: dataEmissaoFormatada,
+                    data_validade: dataValidadeFormatada,
+                    status: orcamento.status,
+                    nome_cliente: orcamento.nome_cliente,
+                    nome_responsavel: orcamento.nome_responsavel,
+                    nome_atendimento: orcamento.nome_atendimento,
+                };
+                console.log(payload);
+                const webhookResponse = await fetch('https://hook.us2.make.com/yrduv13hso1o9h4tlbb5xp22a30qb4mo', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        id: orcamento.id,
-                        descricao: orcamento.descricao,
-                        valor: orcamento.valor,
-                        data_emissao: dataEmissaoFormatada,
-                        data_validade: dataValidadeFormatada,
-                        status: orcamento.status,
-                        nome_cliente: orcamento.nome_cliente,
-                        nome_responsável: orcamento.nome_responsavel,
-                        nome_atendimento: orcamento.nome_atendimento,
-                    }),
+                    body: JSON.stringify(payload),
                 });
+
+                if (!webhookResponse.ok) {
+                    const errorText = await webhookResponse.text();
+                    console.error('Erro ao enviar para o webhook:', errorText);
+                    res.status(500).json({ error: 'Erro ao enviar para o webhook', details: errorText });
+                    return;
+                }
 
                 res.json({ message: 'Orçamento enviado para o webhook com sucesso' });
             } else {
-
-                console.log(`requisição orcamento${id}`);
+                console.log(`Orçamento não encontrado: ${id}`);
                 res.status(404).json({ error: 'Orçamento não encontrado' });
-
             }
         } catch (error) {
             console.log(error);

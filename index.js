@@ -73,7 +73,7 @@ app.get('/tarefa/detalhes/:id', ControllerTarefas.findDetails);
 app.post('/orcamento/insert', ControllerOrcamento.insert);
 app.get('/orcamentos', ControllerOrcamento.findAll);
 app.get('/orcamento/:id', ControllerOrcamento.findById);
-app.get('orcamento/gerarproposta/:id', ControllerOrcamento.gerarProposta);
+app.get('/orcamento/gerarproposta/:id', ControllerOrcamento.gerarProposta);
 
 app.listen(PORT, () => {
     console.log(`------------------------------`);
