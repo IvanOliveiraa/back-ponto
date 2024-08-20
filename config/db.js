@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mysql = require('mysql2/promise');
 
 var pool2 = mysql.createPool({
@@ -6,11 +7,9 @@ var pool2 = mysql.createPool({
     password: '',
     database: 'dbpontoti'
 });
-var pool = mysql.createPool({
-    host: 'us-cdbr-east-06.cleardb.net',
-    user: 'b046385ef31523',
-    password: 'e3efbf08',
-    database: 'heroku_f8bf57cf470a769'
+
+const pool = mysql.createPool({
+    uri: process.env.DATABASE_URL
 });
 
-module.exports = pool2;
+module.exports = pool;
