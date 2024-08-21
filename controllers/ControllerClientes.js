@@ -11,11 +11,6 @@ module.exports = {
             "responsavel": req.body.responsavel,
             "endereco": req.body.endereco,
 
-            "email2": req.body.email2,
-            "responsavel2": req.body.responsavel2,
-            "telefone2": req.body.telefone2,
-            "tipo": req.body.tipo
-
         }
 
         try {
@@ -37,12 +32,7 @@ module.exports = {
             "email_cliente": req.body.email,
             "telefone_cliente": req.body.telefone,
             "responsavel": req.body.responsavel,
-            "endereco": req.body.endereco,
-
-            "email2": req.body.email2,
-            "responsavel2": req.body.responsavel2,
-            "telefone2": req.body.telefone2,
-            "tipo": req.body.tipo
+            "endereco": req.body.endereco
         }
 
         try {
