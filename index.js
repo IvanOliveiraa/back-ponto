@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 
 const PORT = 8080;
-app.use(cors({ origin: 'http://localhost:3006' }));
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use((req, res, next) => {
 
