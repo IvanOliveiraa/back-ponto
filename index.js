@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 
 const PORT = 8080;
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: 'https://sistema.pontoti.net.br/' }));
 app.use(express.json());
 app.use((req, res, next) => {
 
