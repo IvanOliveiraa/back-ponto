@@ -2,18 +2,18 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-const PORT = 8080;
-app.use(cors({ origin: 'https://sistema.pontoti.net.br/' }));
+const PORT = process.env.PORT || 8080;
+
+// Configuração do CORS
+app.use(cors({
+    origin: 'https://sistema.pontoti.net.br', // Sem a barra no final
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
+}));
+
 app.use(express.json());
-app.use((req, res, next) => {
 
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-    next();
-});
-
+// Importação dos controllers
 const ControllerUsers = require('./controllers/ControllerUsers');
 const ControllerClientes = require('./controllers/ControllerClientes');
 const login = require('./middleware/login');
@@ -23,6 +23,7 @@ const ControllerTipos_Atendimentos = require('./controllers/ControllerTipos_Aten
 const ControllerTarefas = require('./controllers/ControllerTarefas');
 const ControllerOrcamento = require('./controllers/ControllerOrcamento');
 
+// Rotas
 //AUTENTICAÇÃO
 app.post('/login', ControllerAuth.login);
 
@@ -33,7 +34,6 @@ app.get('/usuarios', ControllerUsers.findAll);
 app.get('/selectusuarios', ControllerUsers.SelectList);
 app.get('/usuario/:id', ControllerUsers.findById);
 app.delete('/usuario/:id', ControllerUsers.delete);
-
 
 //CLIENTES
 app.post('/cliente/insert', ControllerClientes.insert);
@@ -68,7 +68,6 @@ app.delete('/tarefa/:id', ControllerTarefas.delete);
 app.put('/tarefa/confirmar/:id', ControllerTarefas.confirmar);
 app.get('/tarefa/detalhes/:id', ControllerTarefas.findDetails);
 
-
 //ORCAMENTOS
 app.post('/orcamento/insert', ControllerOrcamento.insert);
 app.get('/orcamentos', ControllerOrcamento.findAll);
@@ -82,4 +81,4 @@ app.listen(PORT, () => {
     console.log(`🔥FUNCIONANDO COM SUCESSO🔥`);
     console.log(`   🚪 NA PORTA ${PORT} 🚪`);
     console.log(`______________________________`);
-})
+});
