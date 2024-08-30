@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 8080;
 app.use(cors({
     origin: ['https://sistema.pontoti.net.br',
         'http://localhost:3000',
+        'http://localhost:3006',
         'http://localhost',  // XAMPP na porta 80
         'http://127.0.0.1'], // Sem a barra no final
 
