@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 8080;
 
 // Configuração do CORS
 app.use(cors({
-    origin: 'https://sistema.pontoti.net.br', // Sem a barra no final
+    origin: ['https://sistema.pontoti.net.br', 'http://localhost:80'], // Sem a barra no final
     methods: ['GET', 'PUT', 'POST', 'DELETE'],
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
 }));
