@@ -6,7 +6,11 @@ const PORT = process.env.PORT || 8080;
 
 // Configuração do CORS
 app.use(cors({
-    origin: ['https://sistema.pontoti.net.br', 'http://localhost'], // Sem a barra no final
+    origin: ['https://sistema.pontoti.net.br',
+        'http://localhost:3000',
+        'http://localhost',  // XAMPP na porta 80
+        'http://127.0.0.1'], // Sem a barra no final
+
     methods: ['GET', 'PUT', 'POST', 'DELETE'],
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
 }));
