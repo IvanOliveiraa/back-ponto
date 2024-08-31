@@ -10,7 +10,8 @@ app.use(cors({
         'http://localhost:3000',
         'http://localhost:3006',
         'http://localhost',  // XAMPP na porta 80
-        'http://127.0.0.1'], // Sem a barra no final
+        'http://127.0.0.1',
+        'http:/26.247.134.254:3000'], // Sem a barra no final
 
     methods: ['GET', 'PUT', 'POST', 'DELETE'],
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
