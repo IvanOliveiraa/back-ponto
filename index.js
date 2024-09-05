@@ -11,13 +11,16 @@ app.use(cors({
         'http://localhost:3006',
         'http://localhost',  // XAMPP na porta 80
         'http://127.0.0.1',
-        'http:/26.247.134.254',
-        'http:/26.247.134.254:3000',
-        'http:/192.168.100.200',
-        'http:/192.168.100.200:3000',
+        'http://26.247.134.254',
+        'http://26.247.134.254:3000',
+        'http://192.168.100.200',
+        'http://192.168.100.200:3000',
         'pontoti.up.railway.app',
         'pontoti.up.railway.app:8080',
-        'front_teste_pontoti.railway.internal',
+        'https://pontoti.up.railway.app',
+        'https://pontoti.up.railway.app:8080',
+        'https://front_teste_pontoti.railway.internal',
+        'https://front_teste_pontoti.railway.internal:8080',
     ], // Sem a barra no final
 
     methods: ['GET', 'PUT', 'POST', 'DELETE'],
