@@ -15,6 +15,9 @@ app.use(cors({
         'http:/26.247.134.254:3000',
         'http:/192.168.100.200',
         'http:/192.168.100.200:3000',
+        'pontoti.up.railway.app',
+        'https://pontoti.up.railway.app:8080',
+        'https://front_teste_pontoti.railway.internal',
     ], // Sem a barra no final
 
     methods: ['GET', 'PUT', 'POST', 'DELETE'],
